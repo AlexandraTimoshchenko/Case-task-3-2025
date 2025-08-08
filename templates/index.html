@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<h1>Последние публикации</h1>
+
+{% for post in posts %}
+<div class="post">
+  <h2><a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a></h2>
+  <div class="meta">
+    Автор: <a href="#">{{ post.author.username }}</a> |
+    Дата: {{ post.date_posted.strftime('%d.%m.%Y') }} |
+    Теги:
+    {% for tag in post.tags.split(',') if tag %}
+    <a href="{{ url_for('posts_by_tag', tag=tag.strip()) }}">{{ tag.strip() }}</a>
+    {% endfor %}
+  </div>
+  <p>{{ post.content[:150] }}{% if post.content|length > 150 %}...{% endif %}</p>
+
+  {% if current_user.is_authenticated and current_user != post.author %}
+  <form action="{{ url_for('follow', user_id=post.author.id) }}" method="post">
+    <button type="submit">Подписаться на автора</button>
+  </form>
+  {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

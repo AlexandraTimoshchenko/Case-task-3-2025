@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Редактировать пост{% endblock %}
+
+{% block content %}
+<h1>Редактировать пост</h1>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="title">Заголовок:</label>
+        <input type="text" id="title" name="title" value="{{ post.title }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="content">Содержание:</label>
+        <textarea id="content" name="content" rows="5" required>{{ post.content }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="tags">Теги (через запятую):</label>
+        <input type="text" id="tags" name="tags" value="{{ post.tags }}">
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="is_public" {% if post.is_public %}checked{% endif %}>
+            Публичный пост
+        </label>
+    </div>
+
+    <button type="submit">Сохранить изменения</button>
+</form>
+{% endblock %}

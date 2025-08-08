@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Моя лента{% endblock %}
+
+{% block content %}
+<h1>Моя лента</h1>
+
+{% if posts %}
+<p>Посты пользователей, на которых вы подписаны:</p>
+
+{% for post in posts %}
+<div class="post">
+    <h2><a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a></h2>
+    <div class="meta">
+        Автор: <a href="#">{{ post.author.username }}</a> |
+        Дата: {{ post.date_posted.strftime('%d.%m.%Y') }}
+    </div>
+    <p>{{ post.content[:150] }}{% if post.content|length > 150 %}...{% endif %}</p>
+</div>
+{% endfor %}
+{% else %}
+<p>Вы ни на кого не подписаны. Подпишитесь на пользователей, чтобы видеть их посты здесь.</p>
+{% endif %}
+{% endblock %}
